@@ -28,18 +28,17 @@ h1 {
     width: 260px;
     border-radius: 20px;
     margin: 20px 0;
-    transition: transform 0.3s;
 }
 
-/* прыжок тушканчика */
-.jump {
-    animation: jumpAnim 0.6s ease-out 3;
+/* прыжок */
+.jumpLoop {
+    animation: jumpAnim 0.7s ease-in-out infinite;
 }
 
 @keyframes jumpAnim {
     0% { transform: translateY(0); }
-    40% { transform: translateY(-60px); }
-    70% { transform: translateY(-30px); }
+    40% { transform: translateY(-70px); }
+    70% { transform: translateY(-35px); }
     100% { transform: translateY(0); }
 }
 
@@ -54,18 +53,10 @@ button {
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-#yesBtn {
-    background: #28d17c;
-    color: white;
-}
-
-#noBtn {
-    background: #444;
-    color: white;
-}
+#yesBtn { background: #28d17c; color: white; }
+#noBtn { background: #444; color: white; }
 
 #message {
     display: none;
@@ -105,7 +96,11 @@ button {
 
 <h1 id="title">Будешь ли ты моим валентином? ❤️</h1>
 
-<img id="jerboa" class="gif" src="jerboa-jerboanils.gif">
+<!-- первая гиф -->
+<img id="jerboa1" class="gif" src="jerboa1.gif">
+
+<!-- вторая гиф (скрыта) -->
+<img id="jerboa2" class="gif" src="jerboa2.gif" style="display:none;">
 
 <div class="buttons" id="buttons">
     <button id="yesBtn">ДА 💖</button>
@@ -116,7 +111,7 @@ button {
 
 <div id="message">
     Урааа!! 💘<br>
-    Тушканчик одобрил выбор!
+    Тушканчик скачет от радости!
 </div>
 
 <audio id="music" loop>
@@ -132,7 +127,10 @@ const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const message = document.getElementById("message");
 const music = document.getElementById("music");
-const jerboa = document.getElementById("jerboa");
+
+const jerboa1 = document.getElementById("jerboa1");
+const jerboa2 = document.getElementById("jerboa2");
+
 const title = document.getElementById("title");
 const buttons = document.getElementById("buttons");
 
@@ -153,27 +151,28 @@ function startInfiniteHearts() {
 
 yesBtn.onclick = () => {
 
-    // прыжок тушканчика
-    jerboa.classList.add("jump");
-
-    // бесконечные сердца
+    // запускаем сердца
     startInfiniteHearts();
 
     // музыка
     music.play().catch(()=>{});
 
-    // скрываем только заголовок и кнопки — тушканчик остаётся
-    setTimeout(() => {
-        title.style.display = "none";
-        buttons.style.display = "none";
-        message.style.display = "block";
-    }, 1200);
+    // меняем тушканчика
+    jerboa1.style.display = "none";
+    jerboa2.style.display = "inline-block";
+    jerboa2.classList.add("jumpLoop");
+
+    // скрываем интерфейс
+    title.style.display = "none";
+    buttons.style.display = "none";
+
+    // показываем сообщение
+    message.style.display = "block";
 };
 
 noBtn.onclick = () => {
     yesSize += 6;
     noSize -= 3;
-
     yesBtn.style.fontSize = yesSize + "px";
     noBtn.style.fontSize = Math.max(noSize, 8) + "px";
 };
