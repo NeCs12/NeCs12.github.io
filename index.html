@@ -8,11 +8,23 @@
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #ff4b6e, #ff9aa2);
     font-family: Arial, sans-serif;
     text-align: center;
     color: white;
     overflow: hidden;
+
+    /* МНОГОСЛОЙНЫЙ градиент */
+    background:
+        radial-gradient(circle at 20% 20%, #ff8aa5 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, #ff5f7e 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, #ff3d68 0%, transparent 50%),
+        linear-gradient(135deg,
+            #ff4b6e 0%,
+            #ff6f8f 25%,
+            #ff8fa8 50%,
+            #ff6f8f 75%,
+            #ff4b6e 100%
+        );
 }
 
 .container {
@@ -83,7 +95,7 @@ button {
 #bigHeart {
     display: none;
     position: fixed;
-    top: 85%;
+    top: 82%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 320px; /* размер можно менять */
