@@ -86,8 +86,17 @@ button {
     cursor: pointer;
 }
 
-#yesBtn { background: #28d17c; color: white; }
-#noBtn { background: #444; color: white; }
+#yesBtn {
+    background: #28d17c;
+    color: white;
+    font-size: 20px; /* начальный размер */
+}
+
+#noBtn {
+    background: #444;
+    color: white;
+    font-size: 12px; /* изначально меньше */
+}
 
 /* сообщение */
 #message {
@@ -204,8 +213,8 @@ button {
 </audio>
 
 <script>
-let yesSize = 25;
-let noSize = 14;
+let yesSize = 20;
+let noSize = 12;
 let heartInterval = null;
 
 const yesBtn = document.getElementById("yesBtn");
