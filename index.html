@@ -126,6 +126,7 @@ button {
 <script>
 let yesSize = 20;
 let noSize = 20;
+let heartInterval = null;
 
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
@@ -141,7 +142,13 @@ function spawnHeart() {
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (20 + Math.random()*30) + "px";
     document.body.appendChild(heart);
+
     setTimeout(() => heart.remove(), 3000);
+}
+
+function startInfiniteHearts() {
+    if (heartInterval) return; // защита от повторного запуска
+    heartInterval = setInterval(spawnHeart, 180);
 }
 
 yesBtn.onclick = () => {
@@ -149,15 +156,13 @@ yesBtn.onclick = () => {
     // прыжок тушканчика
     jerboa.classList.add("jump");
 
-    // сердца
-    for (let i = 0; i < 35; i++) {
-        setTimeout(spawnHeart, i * 90);
-    }
+    // запускаем бесконечные сердца
+    startInfiniteHearts();
 
     // музыка
     music.play().catch(()=>{});
 
-    // показать финальный экран через небольшую задержку
+    // финальный экран
     setTimeout(() => {
         mainBlock.style.display = "none";
         message.style.display = "block";
