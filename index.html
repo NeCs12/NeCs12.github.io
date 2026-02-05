@@ -148,7 +148,7 @@ function spawnHeart() {
 
 function startInfiniteHearts() {
     if (heartInterval) return; // защита от повторного запуска
-    heartInterval = setInterval(spawnHeart, 180);
+    heartInterval = setInterval(spawnHeart, 80);
 }
 
 yesBtn.onclick = () => {
