@@ -13,26 +13,26 @@ body {
     color: white;
     overflow: hidden;
 
-    /* Плавный многоточечный градиент */
-    background: radial-gradient(circle at 20% 30%, #ff8aa5 0%, transparent 40%),
-                radial-gradient(circle at 80% 20%, #ff5f7e 0%, transparent 45%),
-                radial-gradient(circle at 50% 80%, #ff3d68 0%, transparent 50%),
-                linear-gradient(135deg,
-                    #ff4b6e 0%,
-                    #ff6f8f 25%,
-                    #ff8fa8 50%,
-                    #ff6f8f 75%,
-                    #ff4b6e 100%);
-    background-size: cover;
+    /* МНОГОСЛОЙНЫЙ градиент */
+    background:
+        radial-gradient(circle at 20% 20%, #ff8aa5 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, #ff5f7e 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, #ff3d68 0%, transparent 50%),
+        linear-gradient(135deg,
+            #ff4b6e 0%,
+            #ff6f8f 25%,
+            #ff8fa8 50%,
+            #ff6f8f 75%,
+            #ff4b6e 100%
+        );
 }
-
-/* Шум для окончательной сглаженности */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.03;
+    opacity: 0.05;
+
     background-image:
         repeating-linear-gradient(
             0deg,
@@ -41,7 +41,7 @@ body::after {
             transparent 1px,
             transparent 3px
         );
-
+}
 
 .container {
     margin-top: 40px;
