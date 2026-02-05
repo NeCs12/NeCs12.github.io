@@ -67,18 +67,23 @@ button {
     transform: translate(-50%, -50%);
     font-size: 42px;
     color: #b3002d;
-    background: white;
+
+    background: rgba(255,255,255,0.78); /* ← прозрачность */
+    
     padding: 35px 45px;
     border-radius: 20px;
     z-index: 1000;
     box-shadow: 0 0 40px rgba(0,0,0,0.3);
+
+    backdrop-filter: blur(6px); /* красивый стеклянный эффект */
 }
+
 
 /* большое сердце */
 #bigHeart {
     display: none;
     position: fixed;
-    top: 55%;
+    top: 85%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 320px; /* размер можно менять */
