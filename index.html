@@ -58,6 +58,7 @@ button {
 #yesBtn { background: #28d17c; color: white; }
 #noBtn { background: #444; color: white; }
 
+/* сообщение */
 #message {
     display: none;
     position: fixed;
@@ -73,7 +74,26 @@ button {
     box-shadow: 0 0 40px rgba(0,0,0,0.3);
 }
 
-/* сердца */
+/* большое сердце ЗА сообщением */
+#bigHeart {
+    display: none;
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 220px;
+    z-index: 900;
+    animation: spinHeart 4s linear infinite;
+    filter: drop-shadow(0 0 25px rgba(255,0,0,0.6));
+    pointer-events: none;
+}
+
+@keyframes spinHeart {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* сердца вверх */
 .heart {
     position: fixed;
     bottom: -20px;
@@ -96,10 +116,7 @@ button {
 
 <h1 id="title">Будешь ли ты моим валентином? ❤️</h1>
 
-<!-- первая гиф -->
 <img id="jerboa1" class="gif" src="jerboa-jerboanils.gif">
-
-<!-- вторая гиф (скрыта) -->
 <img id="jerboa2" class="gif" src="baby-jerboa-jerboa.gif" style="display:none;">
 
 <div class="buttons" id="buttons">
@@ -108,6 +125,9 @@ button {
 </div>
 
 </div>
+
+<!-- большое вращающееся сердце -->
+<div id="bigHeart">❤️</div>
 
 <div id="message">
     Урааа!! 💘<br>
@@ -133,6 +153,7 @@ const jerboa2 = document.getElementById("jerboa2");
 
 const title = document.getElementById("title");
 const buttons = document.getElementById("buttons");
+const bigHeart = document.getElementById("bigHeart");
 
 function spawnHeart() {
     const heart = document.createElement("div");
@@ -151,22 +172,20 @@ function startInfiniteHearts() {
 
 yesBtn.onclick = () => {
 
-    // запускаем сердца
     startInfiniteHearts();
-
-    // музыка
     music.play().catch(()=>{});
 
-    // меняем тушканчика
+    // смена тушканчика
     jerboa1.style.display = "none";
     jerboa2.style.display = "inline-block";
     jerboa2.classList.add("jumpLoop");
 
-    // скрываем интерфейс
+    // скрыть интерфейс
     title.style.display = "none";
     buttons.style.display = "none";
 
-    // показываем сообщение
+    // показать сердце и сообщение
+    bigHeart.style.display = "block";
     message.style.display = "block";
 };
 
