@@ -31,7 +31,7 @@ h1 {
     transition: transform 0.3s;
 }
 
-/* Анимация прыжка */
+/* прыжок тушканчика */
 .jump {
     animation: jumpAnim 0.6s ease-out 3;
 }
@@ -70,7 +70,7 @@ button {
 #message {
     display: none;
     position: fixed;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 42px;
@@ -82,6 +82,7 @@ button {
     box-shadow: 0 0 40px rgba(0,0,0,0.3);
 }
 
+/* сердца */
 .heart {
     position: fixed;
     bottom: -20px;
@@ -100,14 +101,13 @@ button {
 
 <body>
 
-<div class="container" id="mainBlock">
+<div class="container">
 
-<h1>Будешь ли ты моим валентином? ❤️</h1>
+<h1 id="title">Будешь ли ты моим валентином? ❤️</h1>
 
-<!-- Положи jerboa.gif в репозиторий -->
 <img id="jerboa" class="gif" src="jerboa-jerboanils.gif">
 
-<div class="buttons">
+<div class="buttons" id="buttons">
     <button id="yesBtn">ДА 💖</button>
     <button id="noBtn">НЕТ 🙃</button>
 </div>
@@ -132,8 +132,9 @@ const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const message = document.getElementById("message");
 const music = document.getElementById("music");
-const mainBlock = document.getElementById("mainBlock");
 const jerboa = document.getElementById("jerboa");
+const title = document.getElementById("title");
+const buttons = document.getElementById("buttons");
 
 function spawnHeart() {
     const heart = document.createElement("div");
@@ -142,12 +143,11 @@ function spawnHeart() {
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (20 + Math.random()*30) + "px";
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 3000);
 }
 
 function startInfiniteHearts() {
-    if (heartInterval) return; // защита от повторного запуска
+    if (heartInterval) return;
     heartInterval = setInterval(spawnHeart, 80);
 }
 
@@ -156,15 +156,16 @@ yesBtn.onclick = () => {
     // прыжок тушканчика
     jerboa.classList.add("jump");
 
-    // запускаем бесконечные сердца
+    // бесконечные сердца
     startInfiniteHearts();
 
     // музыка
     music.play().catch(()=>{});
 
-    // финальный экран
+    // скрываем только заголовок и кнопки — тушканчик остаётся
     setTimeout(() => {
-        mainBlock.style.display = "none";
+        title.style.display = "none";
+        buttons.style.display = "none";
         message.style.display = "block";
     }, 1200);
 };
