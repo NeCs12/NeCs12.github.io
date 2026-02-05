@@ -17,17 +17,40 @@ body {
     color: white;
     overflow: hidden;
 
-    background: linear-gradient(135deg,
-        #ffc0cb, /* светло-розовый */
-        #ffb6c1,
-        #ff99b6,
-        #ff82aa,
-        #ff69b4,
-        #ff4db6,
-        #ff3399,
-        #ff1a87,
-        #ff007f
-    ) no-repeat;
+    background:
+        repeating-linear-gradient(
+            190deg,
+            rgba(255, 182, 193, 0.5) 40px,
+            rgba(255, 105, 180, 0.5) 80px,
+            rgba(255, 20, 147, 0.5) 120px,
+            rgba(219, 112, 147, 0.5) 160px,
+            rgba(199, 21, 133, 0.5) 200px,
+            rgba(218, 112, 214, 0.5) 240px,
+            rgba(255, 182, 193, 0.5) 280px,
+            rgba(255, 105, 180, 0.5) 300px
+        ),
+        repeating-linear-gradient(
+            -190deg,
+            rgba(255, 182, 193, 0.5) 30px,
+            rgba(255, 105, 180, 0.5) 60px,
+            rgba(255, 20, 147, 0.5) 90px,
+            rgba(219, 112, 147, 0.5) 120px,
+            rgba(199, 21, 133, 0.5) 150px,
+            rgba(218, 112, 214, 0.5) 180px,
+            rgba(255, 182, 193, 0.5) 210px,
+            rgba(255, 105, 180, 0.5) 230px
+        ),
+        repeating-linear-gradient(
+            23deg,
+            rgba(255, 182, 193, 0.5) 50px,
+            rgba(255, 105, 180, 0.5) 100px,
+            rgba(255, 20, 147, 0.5) 150px,
+            rgba(219, 112, 147, 0.5) 200px,
+            rgba(199, 21, 133, 0.5) 250px,
+            rgba(218, 112, 214, 0.5) 300px,
+            rgba(255, 182, 193, 0.5) 350px,
+            rgba(255, 105, 180, 0.5) 370px
+        ) no-repeat;
 }
 
 
