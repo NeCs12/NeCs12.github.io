@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Будешь моим валентином?</title>
+<title>Анонимная открытка</title>
 
 <style>
 body {
@@ -69,6 +69,13 @@ h1 {
     70% { transform: translateY(-35px); }
     100% { transform: translateY(0); }
 }
+    
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
 
 .buttons {
     margin-top: 20px;
@@ -119,7 +126,7 @@ button {
     animation: spinHeart 4s linear infinite;
     filter: drop-shadow(0 0 35px rgba(255,0,0,0.7));
     pointer-events: none;
-}
+}    
 
 @keyframes spinHeart {
     from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -274,6 +281,15 @@ noBtn.onclick = () => {
     yesBtn.style.fontSize = yesSize + "px";
     noBtn.style.fontSize = Math.max(noSize, 8) + "px";
 };
+
+bigHeart.onclick = () => {
+    bigHeart.style.animation = 'pulse 0.8s ease-in-out';
+    // чтобы анимация срабатывала повторно при следующем клике
+    setTimeout(() => {
+        bigHeart.style.animation = 'spinHeart 4s linear infinite';
+    }, 800);
+};
+
 </script>
 
 </body>
