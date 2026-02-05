@@ -13,16 +13,14 @@ body {
     color: white;
     overflow: hidden;
 
-    /* Плавный линейный градиент с несколькими цветами */
-    background: linear-gradient(135deg,
-        #ff4b6e 0%,
-        #ff5f80 25%,
-        #ff7a95 50%,
-        #ff8faa 75%,
-        #ff9fbf 100%
-    );
+    background:
+        radial-gradient(circle at 20% 30%, #ff8aa5 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, #ff5f7e 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, #ff3d68 0%, transparent 50%),
+        linear-gradient(135deg, #ff4b6e 0%, #ff6f8f 25%, #ff8fa8 50%, #ff6f8f 75%, #ff4b6e 100%);
     background-size: cover;
 }
+
 
 /* Анти-бэндинг: тонкий шум */
 body::after {
@@ -30,7 +28,7 @@ body::after {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.03;
+    opacity: 0.04;
     background-image:
         repeating-linear-gradient(
             0deg,
@@ -40,7 +38,6 @@ body::after {
             transparent 3px
         );
 }
-
 
 .container {
     margin-top: 40px;
