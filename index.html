@@ -265,6 +265,7 @@ button {
 <script>
 let yesSize = 20;
 let noSize = 12;
+let clicks = 0;
 let heartInterval = null;
 
 const yesBtn = document.getElementById("yesBtn");
@@ -345,7 +346,12 @@ noBtn.onclick = () => {
 };
 
 bigHeart.onclick = () => {
-
+    clicks++;
+    
+    if(clicks === 7) {
+        alert("Секретное сердечко 💌");
+    }
+    
     loveExplosion();        // эмодзи взрыв
     spawnHeart();           // ещё сердце
     startInfiniteHearts();  // поток сердец
