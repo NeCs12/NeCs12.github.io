@@ -166,6 +166,20 @@ button {
     cursor: pointer;        /* ← чтобы видно что кликается */
 }
     
+#bigHeartInner {
+    display: inline-block;
+}
+
+.pulseNow {
+    animation: pulseOnly 0.8s ease-in-out;
+}
+
+@keyframes pulseOnly {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+    
 
 @keyframes spinHeart {
     from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -235,7 +249,9 @@ button {
 
 </div>
 
-<div id="bigHeart">❤️</div>
+<div id="bigHeart">
+    <span id="bigHeartInner">❤️</span>
+</div>
 
 <div id="message">
     Урааа!! 💘<br>
@@ -262,6 +278,8 @@ const jerboa2 = document.getElementById("jerboa2");
 const title = document.getElementById("title");
 const buttons = document.getElementById("buttons");
 const bigHeart = document.getElementById("bigHeart");
+
+const bigHeartInner = document.getElementById("bigHeartInner");
 
 /* бесконечные сердца */
 function spawnHeart() {
@@ -328,19 +346,17 @@ noBtn.onclick = () => {
 
 bigHeart.onclick = () => {
 
-    /* пульс */
-    bigHeart.style.animation = 'pulse 0.8s ease-in-out';
+    loveExplosion();        // эмодзи взрыв
+    spawnHeart();           // ещё сердце
+    startInfiniteHearts();  // поток сердец
 
-    /* эффекты */
-    loveExplosion();
-    spawnHeart();
-    startInfiniteHearts();
-
-    /* вернуть вращение */
+    /* пульс без сброса вращения */
+    bigHeartInner.classList.add("pulseNow");
     setTimeout(() => {
-        bigHeart.style.animation = 'spinHeart 4s linear infinite';
+        bigHeartInner.classList.remove("pulseNow");
     }, 800);
 };
+
 
 </script>
 
