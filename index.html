@@ -413,10 +413,32 @@ bigHeart.onclick = () => {
     }, 800);
 };
 
-const jerboa = document.getElementById("jerboa2"); // тушканчик, который прыгает
-let originalPos = { x: jerboa.offsetLeft, y: jerboa.offsetTop }; // запоминаем исходную позицию
-let followMouse = false;
-let mouseMoveHandler = null;
+function spawnJerboa() {
+    const clone = document.createElement("img");
+    clone.src = "baby-jerboa-jerboa.gif"; // тот же GIF, что и у второго тушканчика
+    clone.className = "gif jumpLoop";
+    
+    // случайная позиция на экране
+    const left = Math.random() * (window.innerWidth - 100);
+    const top = Math.random() * (window.innerHeight - 100);
+    clone.style.position = "fixed";
+    clone.style.left = left + "px";
+    clone.style.top = top + "px";
+    clone.style.width = "150px"; // можно сделать меньше
+    clone.style.borderRadius = "20px";
+
+    document.body.appendChild(clone);
+
+    // удаляем через 7 секунд, чтобы не засорять
+    setTimeout(() => clone.remove(), 7000);
+}
+
+jerboa2.onclick = () => {
+    spawnJerboa();      // размножение тушканов
+    loveExplosion();    // взрыв эмодзи
+    spawnHeart();       // сердечки
+    startInfiniteHearts();
+};
 
 /* открыть / закрыть панель */
 panelBtn.onclick = () => {
