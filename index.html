@@ -219,6 +219,14 @@ button {
     animation: fly 3s linear forwards;
 }
 
+.gif {
+    position: fixed; /* чтобы можно было двигать */
+    width: 260px;
+    border-radius: 20px;
+    margin: 20px 0;
+    cursor: pointer; /* чтобы показывать, что кликабельно */
+}
+
 @keyframes fly {
     to {
         transform: translateY(-110vh) rotate(360deg);
@@ -412,6 +420,45 @@ bigHeart.onclick = () => {
         bigHeartInner.classList.remove("pulseNow");
     }, 800);
 };
+
+const jerboa = document.getElementById("jerboa2"); // тушканчик, который прыгает
+let originalPos = { x: jerboa.offsetLeft, y: jerboa.offsetTop }; // запоминаем исходную позицию
+let followMouse = false;
+let mouseMoveHandler = null;
+
+jerboa.onclick = () => {
+    // Начинаем следовать за курсором
+    followMouse = true;
+
+    mouseMoveHandler = (e) => {
+        // плавное перемещение к курсору
+        const targetX = e.clientX - jerboa.offsetWidth / 2;
+        const targetY = e.clientY - jerboa.offsetHeight / 2;
+
+        jerboa.style.left = targetX + "px";
+        jerboa.style.top = targetY + "px";
+    };
+
+    document.addEventListener("mousemove", mouseMoveHandler);
+
+    // через 5 секунд перестаем следовать за мышью и возвращаемся
+    setTimeout(() => {
+        followMouse = false;
+        document.removeEventListener("mousemove", mouseMoveHandler);
+
+        // плавное возвращение к исходной позиции
+        jerboa.style.transition = "all 1s ease";
+        jerboa.style.left = originalPos.x + "px";
+        jerboa.style.top = originalPos.y + "px";
+
+        // убираем transition через 1s, чтобы не мешала другим анимациям
+        setTimeout(() => {
+            jerboa.style.transition = "";
+        }, 1000);
+
+    }, 5000); // 5 секунд можно изменить
+};
+
 
 /* открыть / закрыть панель */
 panelBtn.onclick = () => {
