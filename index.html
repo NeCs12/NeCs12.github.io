@@ -158,12 +158,14 @@ button {
     top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 320px; /* размер можно менять */
+    font-size: 320px;
     z-index: 900;
     animation: spinHeart 4s linear infinite;
     filter: drop-shadow(0 0 35px rgba(255,0,0,0.7));
-    pointer-events: none;
-}    
+    pointer-events: auto;   /* ← ВАЖНО */
+    cursor: pointer;        /* ← чтобы видно что кликается */
+}
+    
 
 @keyframes spinHeart {
     from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -325,8 +327,16 @@ noBtn.onclick = () => {
 };
 
 bigHeart.onclick = () => {
+
+    /* пульс */
     bigHeart.style.animation = 'pulse 0.8s ease-in-out';
-    // чтобы анимация срабатывала повторно при следующем клике
+
+    /* эффекты */
+    loveExplosion();
+    spawnHeart();
+    startInfiniteHearts();
+
+    /* вернуть вращение */
     setTimeout(() => {
         bigHeart.style.animation = 'spinHeart 4s linear infinite';
     }, 800);
