@@ -327,6 +327,9 @@ const bigHeart = document.getElementById("bigHeart");
 
 const bigHeartInner = document.getElementById("bigHeartInner");
 
+sidePanel.style.display = "none";
+panelBtn.style.display = "none";
+
 /* бесконечные сердца */
 function spawnHeart() {
     const heart = document.createElement("div");
@@ -395,6 +398,8 @@ bigHeart.onclick = () => {
     
     if(clicks === 7) {
         alert("От меня для тебя, моя дорогая 💌");
+        panelBtn.style.display = "block";
+        sidePanel.style.display = "block";
     }
     
     loveExplosion();        // эмодзи взрыв
@@ -407,9 +412,6 @@ bigHeart.onclick = () => {
         bigHeartInner.classList.remove("pulseNow");
     }, 800);
 };
-
-const sidePanel = document.getElementById("sidePanel");
-const panelBtn = document.getElementById("panelBtn");
 
 /* открыть / закрыть панель */
 panelBtn.onclick = () => {
