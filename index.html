@@ -226,6 +226,16 @@ button {
     }
 }
 
+@keyframes bgPulse {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.15); }
+  100% { filter: brightness(1); }
+}
+
+body.music {
+  animation: bgPulse 2s infinite;
+}
+
 .heart, .burst, #bigHeart {
     font-family: "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
@@ -349,7 +359,7 @@ bigHeart.onclick = () => {
     clicks++;
     
     if(clicks === 7) {
-        alert("От меня для тебя 💌");
+        alert("От меня для тебя, моя дорогая 💌");
         clicks = 0;
     }
     
