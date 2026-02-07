@@ -470,14 +470,18 @@ sidePanel.style.display = "none";
 panelBtn.style.display = "none";
 
 /* бесконечные сердца */
+let heartSpeedFactor = 1; // множитель скорости для новых сердец
+
+// генерация сердца
 function spawnHeart() {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "❤️";
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (20 + Math.random()*30) + "px";
+    heart.style.animationDuration = (3 / heartSpeedFactor) + "s"; // скорость задаём здесь
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 3000);
+    setTimeout(() => heart.remove(), 3000 / heartSpeedFactor);
 }
 
 function startInfiniteHearts() {
@@ -559,10 +563,12 @@ const freqVal = document.getElementById("freqVal");
 
 // настройка скорости анимации сердец
 speedSlider.oninput = () => {
-    const factor = parseFloat(speedSlider.value);
-    speedVal.textContent = factor.toFixed(1) + "x";
+    heartSpeedFactor = parseFloat(speedSlider.value);
+    speedVal.textContent = heartSpeedFactor.toFixed(1) + "x";
+    
     document.querySelectorAll('.heart').forEach(h => {
-        h.style.animationDuration = (3 / factor) + "s"; // стандарт 3s
+        const elapsed = parseFloat(getComputedStyle(h).animationDuration) || 3;
+        h.style.animationDuration = (3 / heartSpeedFactor) + "s";
     });
 };
 
