@@ -499,11 +499,7 @@ function loadTrack(i) {
 
 function playCurrent() {
     music.play().catch(()=>{});
-}
-
-function stopCurrent() {
-    music.pause();
-    music.currentTime = 0;
+    stopBtn.textContent = "⏸";
 }
 
 prevBtn.onclick = () => {
@@ -517,7 +513,13 @@ nextBtn.onclick = () => {
 };
 
 stopBtn.onclick = () => {
-    stopCurrent();
+    if (music.paused) {
+        music.play().catch(()=>{});
+        stopBtn.textContent = "⏸";
+    } else {
+        music.pause();
+        stopBtn.textContent = "▶";
+    }
 };
 
 /* автопереход на следующую */
@@ -528,6 +530,7 @@ music.onended = () => {
 
 /* загрузить первый трек */
 loadTrack(0);
+stopBtn.textContent = "▶";
 
 </script>
 
