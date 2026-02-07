@@ -336,6 +336,19 @@ button {
     cursor: pointer;
     margin-top: 5px;
 }
+    
+#timeSlider {
+    width: 200px;
+    height: 8px;
+    border-radius: 5px;
+    background: #ddd;
+    accent-color: #ff4b6e;
+    cursor: pointer;
+}
+#currentTime, #totalTime {
+    font-size: 13px;
+    color: #333;
+}
 
 
 </style>
@@ -394,6 +407,11 @@ button {
             <button id="prevBtn">⏮</button>
             <button id="stopBtn">⏹</button>
             <button id="nextBtn">⏭</button>
+            <div id="timeContainer" style="display: flex; align-items: center; justify-content: center; margin-top: 10px; gap: 10px;">
+                <span id="currentTime">0:00</span>
+                <input type="range" id="timeSlider" min="0" max="100" value="0">
+                <span id="totalTime">0:00</span>
+            </div>
             <div style="margin-top:10px;">
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
             </div>
@@ -592,6 +610,44 @@ music.volume = volumeSlider.value;
 volumeSlider.oninput = () => {
     music.volume = volumeSlider.value;
 };
+
+const timeSlider = document.getElementById("timeSlider");
+const currentTimeEl = document.getElementById("currentTime");
+const totalTimeEl = document.getElementById("totalTime");
+
+// функция для форматирования секунд в mm:ss
+function formatTime(sec) {
+    const minutes = Math.floor(sec / 60);
+    const seconds = Math.floor(sec % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// когда метаданные трека загрузились, показываем общую длительность
+music.onloadedmetadata = () => {
+    totalTimeEl.textContent = formatTime(music.duration);
+};
+
+// обновляем текущую позицию и ползунок
+music.ontimeupdate = () => {
+    if (!timeSlider.dragging) {
+        const value = (music.currentTime / music.duration) * 100 || 0;
+        timeSlider.value = value;
+        currentTimeEl.textContent = formatTime(music.currentTime);
+    }
+};
+
+// перемотка при ручном движении ползунка
+timeSlider.oninput = () => {
+    timeSlider.dragging = true;
+    const time = (timeSlider.value / 100) * music.duration;
+    currentTimeEl.textContent = formatTime(time);
+};
+
+timeSlider.onchange = () => {
+    music.currentTime = (timeSlider.value / 100) * music.duration;
+    timeSlider.dragging = false;
+};
+
 
 /* автопереход на следующую */
 music.onended = () => {
