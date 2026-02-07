@@ -265,6 +265,30 @@ button {
 /* панель открыта */
 #sidePanel.open { right: 0; }
 
+#player {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 12px;
+    text-align: center;
+}
+
+#trackName {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.playerBtns button {
+    font-size: 20px;
+    padding: 8px 12px;
+    margin: 4px;
+    background: #ff4b6e;
+    color: white;
+    border-radius: 10px;
+}
+
+
 </style>
 </head>
 
@@ -293,9 +317,7 @@ button {
     Тушканчик одобрил предложение!
 </div>
 
-<audio id="music" loop>
-    <source src="music.mp3" type="audio/mpeg">
-</audio>
+<audio id="music"></audio>
 
 <!-- кнопка панели -->
 <div id="panelBtn">ℹ️</div>
@@ -305,6 +327,18 @@ button {
     <p>Молодец, ты нашла скрытое послание!1!</p>
     <p>Хочу сказать, что я очень благодарен тебе за тебя. Ты лучшее в моей жизни и я очень сильно тебя люблю, Маня</p>
     <p>Спасибо большое❤️❤️❤️</p>
+
+    <hr>
+
+    <h3>Музыка 🎵</h3>
+    <div id="player">
+        <div id="trackName">—</div>
+        <div class="playerBtns">
+            <button id="prevBtn">⏮</button>
+            <button id="stopBtn">⏹</button>
+            <button id="nextBtn">⏭</button>
+        </div>
+    </div>
 </div>
     
 <script>
@@ -441,7 +475,60 @@ jerboa2.onclick = () => {
 panelBtn.onclick = () => {
     sidePanel.classList.toggle("open");
 };
-    
+
+/* ===== ПЛЕЕР ===== */
+
+const tracks = [
+    { name: "Романтика 💖", file: "music.mp3" },
+    { name: "Нежность 🌸", file: "music2.mp3" },
+    { name: "Тепло ✨", file: "music3.mp3" }
+];
+
+let currentTrack = 0;
+
+const trackNameEl = document.getElementById("trackName");
+const prevBtn = document.getElementById("prevBtn");
+const stopBtn = document.getElementById("stopBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function loadTrack(i) {
+    currentTrack = (i + tracks.length) % tracks.length;
+    music.src = tracks[currentTrack].file;
+    trackNameEl.textContent = tracks[currentTrack].name;
+}
+
+function playCurrent() {
+    music.play().catch(()=>{});
+}
+
+function stopCurrent() {
+    music.pause();
+    music.currentTime = 0;
+}
+
+prevBtn.onclick = () => {
+    loadTrack(currentTrack - 1);
+    playCurrent();
+};
+
+nextBtn.onclick = () => {
+    loadTrack(currentTrack + 1);
+    playCurrent();
+};
+
+stopBtn.onclick = () => {
+    stopCurrent();
+};
+
+/* автопереход на следующую */
+music.onended = () => {
+    loadTrack(currentTrack + 1);
+    playCurrent();
+};
+
+/* загрузить первый трек */
+loadTrack(0);
+
 </script>
 
 </body>
