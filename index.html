@@ -273,12 +273,6 @@ button {
     text-align: center;
 }
 
-#trackName {
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 16px;
-}
-
 .playerBtns button {
     font-size: 20px;
     padding: 8px 12px;
@@ -344,7 +338,7 @@ button {
 
     <h3>Музыка 🎵</h3>
     <div id="player">
-        <div id="trackName">—</div>
+        <div id="trackTitle">—</div>
         <div id="trackAuthor">—</div>
         <div class="playerBtns">
             <button id="prevBtn">⏮</button>
@@ -500,7 +494,7 @@ const tracks = [
 
 let currentTrack = 0;
 
-const trackName = document.getElementById("trackName");
+const trackTitle = document.getElementById("trackTitle");
 const trackAuthor = document.getElementById("trackAuthor");
 const prevBtn = document.getElementById("prevBtn");
 const stopBtn = document.getElementById("stopBtn");
@@ -509,7 +503,7 @@ const nextBtn = document.getElementById("nextBtn");
 function loadTrack(i) {
     currentTrack = (i + tracks.length) % tracks.length;
     music.src = tracks[currentTrack].file;
-    trackName.textContent = tracks[currentTrack].name;
+    trackTitle.textContent = tracks[index].title;
     trackAuthor.textContent = tracks[index].author;
 }
 
