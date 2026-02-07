@@ -512,13 +512,15 @@ function playCurrent() {
     stopBtn.textContent = "⏸";
 }
 
-prevBtn.onclick = () => {
-    loadTrack(currentTrack - 1);
+nextBtn.onclick = () => {
+    currentTrack = (currentTrack + 1) % tracks.length;
+    loadTrack(currentTrack);
     playCurrent();
 };
 
-nextBtn.onclick = () => {
-    loadTrack(currentTrack + 1);
+prevBtn.onclick = () => {
+    currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+    loadTrack(currentTrack);
     playCurrent();
 };
 
