@@ -416,6 +416,9 @@ button {
             <button id="prevBtn">⏮</button>
             <button id="stopBtn">⏹</button>
             <button id="nextBtn">⏭</button>
+
+            <canvas id="visualizer" width="280" height="80" style="margin-top: 10px; border-radius:12px; background: rgba(0,0,0,0.1);"></canvas>
+            
             <div id="timeContainer" style="display: flex; align-items: center; justify-content: center; margin-top: 10px; gap: 10px;">
                 <span id="currentTime">0:00</span>
                 <input type="range" id="timeSlider" min="0" max="100" value="0">
@@ -654,6 +657,47 @@ stopBtn.onclick = () => {
         music.pause();
         stopBtn.textContent = "▶";
     }
+};
+
+
+/* ===== ВИЗУАЛИЗАТОР ===== */
+const canvas = document.getElementById("visualizer");
+const ctx = canvas.getContext("2d");
+
+// создаём контекст аудио
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const analyser = audioCtx.createAnalyser();
+const source = audioCtx.createMediaElementSource(music);
+source.connect(analyser);
+analyser.connect(audioCtx.destination);
+
+analyser.fftSize = 64; // меньше — меньше полос
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+
+function drawVisualizer() {
+    requestAnimationFrame(drawVisualizer);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.fillStyle = "rgba(255,255,255,0.1)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const barWidth = canvas.width / bufferLength;
+    let x = 0;
+
+    for(let i = 0; i < bufferLength; i++) {
+        const barHeight = dataArray[i] / 2;
+        ctx.fillStyle = `rgb(${255 - barHeight}, ${50 + barHeight}, 200)`;
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+        x += barWidth;
+    }
+}
+
+// запуск визуализатора при воспроизведении
+music.onplay = () => {
+    if(audioCtx.state === "suspended") audioCtx.resume();
+    drawVisualizer();
 };
 
 const volumeSlider = document.getElementById("volumeSlider");
