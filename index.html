@@ -288,6 +288,18 @@ button {
     border-radius: 10px;
 }
 
+#trackTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#trackAuthor {
+    font-size: 13px;
+    opacity: 0.75;
+    margin-bottom: 10px;
+}
+
 
 </style>
 </head>
@@ -333,6 +345,7 @@ button {
     <h3>Музыка 🎵</h3>
     <div id="player">
         <div id="trackName">—</div>
+        <div id="trackAuthor">—</div>
         <div class="playerBtns">
             <button id="prevBtn">⏮</button>
             <button id="stopBtn">⏹</button>
@@ -479,15 +492,16 @@ panelBtn.onclick = () => {
 /* ===== ПЛЕЕР ===== */
 
 const tracks = [
-    { name: "Push The Feeling on (short)", file: "music.mp3" },
-    { name: "Versatile hardstyle", file: "music2.mp3" },
-    { name: "Red ✨", file: "music3.mp3" },
-    { name: "I was made for Loving You ✨", file: "music4.mp3" }
+    { name: "Push The Feeling on (short)", file: "music.mp3", author: "Nightcrawlers feat. John Reid" },
+    { name: "Versatile hardstyle", file: "music2.mp3", author: "Cherry Hencefox" },
+    { name: "Red ✨", file: "music3.mp3", author: "itgmqprod" },
+    { name: "I was made for Loving You ✨", file: "music4.mp3", author: "KiSS" }
 ];
 
 let currentTrack = 0;
 
-const trackNameEl = document.getElementById("trackName");
+const trackName = document.getElementById("trackName");
+const trackAuthor = document.getElementById("trackAuthor");
 const prevBtn = document.getElementById("prevBtn");
 const stopBtn = document.getElementById("stopBtn");
 const nextBtn = document.getElementById("nextBtn");
@@ -495,7 +509,8 @@ const nextBtn = document.getElementById("nextBtn");
 function loadTrack(i) {
     currentTrack = (i + tracks.length) % tracks.length;
     music.src = tracks[currentTrack].file;
-    trackNameEl.textContent = tracks[currentTrack].name;
+    trackName.textContent = tracks[currentTrack].name;
+    trackAuthor.textContent = tracks[index].author;
 }
 
 function playCurrent() {
