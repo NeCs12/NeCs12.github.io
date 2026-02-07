@@ -273,6 +273,12 @@ button {
     text-align: center;
 }
 
+#trackName {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
 .playerBtns button {
     font-size: 20px;
     padding: 8px 12px;
@@ -338,7 +344,7 @@ button {
 
     <h3>Музыка 🎵</h3>
     <div id="player">
-        <div id="trackTitle">—</div>
+        <div id="trackName">—</div>
         <div id="trackAuthor">—</div>
         <div class="playerBtns">
             <button id="prevBtn">⏮</button>
@@ -368,9 +374,7 @@ const bigHeart = document.getElementById("bigHeart");
 
 const bigHeartInner = document.getElementById("bigHeartInner");
 
-const sidePanel = document.getElementById("sidePanel");
-const panelBtn = document.getElementById("panelBtn");
-
+sidePanel.style.display = "none";
 panelBtn.style.display = "none";
 
 /* бесконечные сердца */
@@ -488,15 +492,15 @@ panelBtn.onclick = () => {
 /* ===== ПЛЕЕР ===== */
 
 const tracks = [
-    { title: "Push The Feeling on (short)", file: "music.mp3", author: "Nightcrawlers feat. John Reid" },
-    { title: "Versatile hardstyle", file: "music2.mp3", author: "Cherry Hencefox" },
-    { title: "Red ✨", file: "music3.mp3", author: "itgmqprod" },
-    { title: "I was made for Loving You ✨", file: "music4.mp3", author: "KiSS" }
+    { name: "Push The Feeling on (short)", file: "music.mp3", author: "Nightcrawlers feat. John Reid" },
+    { name: "Versatile hardstyle", file: "music2.mp3", author: "Cherry Hencefox" },
+    { name: "Red ✨", file: "music3.mp3", author: "itgmqprod" },
+    { name: "I was made for Loving You ✨", file: "music4.mp3", author: "KiSS" }
 ];
 
 let currentTrack = 0;
 
-const trackTitle = document.getElementById("trackTitle");
+const trackName = document.getElementById("trackName");
 const trackAuthor = document.getElementById("trackAuthor");
 const prevBtn = document.getElementById("prevBtn");
 const stopBtn = document.getElementById("stopBtn");
@@ -505,7 +509,7 @@ const nextBtn = document.getElementById("nextBtn");
 function loadTrack(i) {
     currentTrack = (i + tracks.length) % tracks.length;
     music.src = tracks[currentTrack].file;
-    trackTitle.textContent = tracks[index].title;
+    trackName.textContent = tracks[currentTrack].name;
     trackAuthor.textContent = tracks[index].author;
 }
 
@@ -514,13 +518,13 @@ function playCurrent() {
     stopBtn.textContent = "⏸";
 }
 
-nextBtn.onclick = () => {
-    loadTrack(currentTrack + 1);
+prevBtn.onclick = () => {
+    loadTrack(currentTrack - 1);
     playCurrent();
 };
 
-prevBtn.onclick = () => {
-    loadTrack(currentTrack - 1);
+nextBtn.onclick = () => {
+    loadTrack(currentTrack + 1);
     playCurrent();
 };
 
