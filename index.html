@@ -350,6 +350,15 @@ button {
     color: #333;
 }
 
+#speedSlider, #freqSlider {
+    width: 200px;
+    height: 8px;
+    border-radius: 5px;
+    background: #ddd;
+    accent-color: #ff4b6e;
+    cursor: pointer;
+}
+
 
 </style>
 </head>
@@ -417,6 +426,24 @@ button {
             </div>
         </div>
     </div>
+
+    <hr>
+    
+    <h3>Эффекты </h3>
+    <div id="effectsControl" style="text-align: center; margin-top: 10px;">
+    
+        <div style="margin-bottom: 10px;">
+            <label for="speedSlider">Скорость сердец: <span id="speedVal">1.0x</span></label><br>
+            <input type="range" id="speedSlider" min="0.2" max="3" step="0.1" value="1">
+        </div>
+    
+        <div style="margin-bottom: 10px;">
+            <label for="freqSlider">Частота появления: <span id="freqVal">80</span> мс</label><br>
+            <input type="range" id="freqSlider" min="20" max="200" step="5" value="80">
+        </div>
+    
+    </div>
+    
 </div>
     
 <script>
@@ -524,6 +551,28 @@ bigHeart.onclick = () => {
         bigHeartInner.classList.remove("pulseNow");
     }, 800);
 };
+
+const speedSlider = document.getElementById("speedSlider");
+const speedVal = document.getElementById("speedVal");
+const freqSlider = document.getElementById("freqSlider");
+const freqVal = document.getElementById("freqVal");
+
+// настройка скорости анимации сердец
+speedSlider.oninput = () => {
+    const factor = parseFloat(speedSlider.value);
+    speedVal.textContent = factor.toFixed(1) + "x";
+    document.querySelectorAll('.heart').forEach(h => {
+        h.style.animationDuration = (3 / factor) + "s"; // стандарт 3s
+    });
+};
+
+// настройка частоты появления сердец
+freqSlider.oninput = () => {
+    freqVal.textContent = freqSlider.value;
+    clearInterval(heartInterval);
+    heartInterval = setInterval(spawnHeart, parseInt(freqSlider.value));
+};
+
 
 function spawnJerboa() {
     const clone = document.createElement("img");
