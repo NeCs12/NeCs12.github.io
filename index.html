@@ -327,6 +327,15 @@ button {
 #title span:nth-child(26) { animation-delay: 1.25s; }
 #title span:nth-child(27) { animation-delay: 1.3s; }
 
+#volumeSlider {
+    width: 80%;            /* горизонтальная полоса */
+    height: 8px;            /* толщина */
+    border-radius: 5px;
+    background: #ddd;       /* цвет дорожки */
+    accent-color: #ff4b6e;  /* цвет бегунка */
+    cursor: pointer;
+    margin-top: 5px;
+}
 
 
 </style>
@@ -385,6 +394,9 @@ button {
             <button id="prevBtn">⏮</button>
             <button id="stopBtn">⏹</button>
             <button id="nextBtn">⏭</button>
+            <div style="margin-top:10px;">
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+            </div>
         </div>
     </div>
 </div>
@@ -569,6 +581,16 @@ stopBtn.onclick = () => {
         music.pause();
         stopBtn.textContent = "▶";
     }
+};
+
+const volumeSlider = document.getElementById("volumeSlider");
+
+// установка начальной громкости
+music.volume = volumeSlider.value;
+
+// при изменении ползунка меняем громкость
+volumeSlider.oninput = () => {
+    music.volume = volumeSlider.value;
 };
 
 /* автопереход на следующую */
