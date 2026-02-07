@@ -368,7 +368,9 @@ const bigHeart = document.getElementById("bigHeart");
 
 const bigHeartInner = document.getElementById("bigHeartInner");
 
-sidePanel.style.display = "none";
+const sidePanel = document.getElementById("sidePanel");
+const panelBtn = document.getElementById("panelBtn");
+
 panelBtn.style.display = "none";
 
 /* бесконечные сердца */
@@ -513,14 +515,12 @@ function playCurrent() {
 }
 
 nextBtn.onclick = () => {
-    currentTrack = (currentTrack + 1) % tracks.length;
-    loadTrack(currentTrack);
+    loadTrack(currentTrack + 1);
     playCurrent();
 };
 
 prevBtn.onclick = () => {
-    currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-    loadTrack(currentTrack);
+    loadTrack(currentTrack - 1);
     playCurrent();
 };
 
