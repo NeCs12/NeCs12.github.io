@@ -524,6 +524,20 @@ let bigHeartMode = "emoji";
 
 const bigHeartInner = document.getElementById("bigHeartInner");
 
+const jerboaPhrases = [
+    "*радуется*",
+    "*прыгает от счастья*",
+    "*машет лапками*",
+    "*в восторге*",
+    "*одобрительно пищит*",
+    "*танцует*",
+    "*сияет*",
+    "*очень доволен*"
+];
+
+let jerboaPhraseIndex = 0;
+const jerboaMood = document.getElementById("jerboaMood");
+
 sidePanel.style.display = "none";
 panelBtn.style.display = "none";
 
@@ -595,6 +609,7 @@ yesBtn.onclick = () => {
 
     document.getElementById("jerboaMood").style.opacity = "1";
     document.getElementById("jerboaMood").style.transform = "translateY(0)";
+    jerboaMood.textContent = jerboaPhrases[0];
 
     loveExplosion();
 };
@@ -661,7 +676,20 @@ freqSlider.oninput = () => {
     heartInterval = setInterval(spawnHeart, parseInt(freqSlider.value));
 };
 
+function nextJerboaPhrase() {
+    jerboaPhraseIndex = (jerboaPhraseIndex + 1) % jerboaPhrases.length;
 
+    // маленькая анимация смены
+    jerboaMood.style.opacity = "0";
+    jerboaMood.style.transform = "translateY(-8px)";
+
+    setTimeout(() => {
+        jerboaMood.textContent = jerboaPhrases[jerboaPhraseIndex];
+        jerboaMood.style.opacity = "1";
+        jerboaMood.style.transform = "translateY(0)";
+    }, 180);
+}
+    
 function spawnJerboa() {
     const clone = document.createElement("img");
     clone.src = "baby-jerboa-jerboa.gif"; // тот же GIF, что и у второго тушканчика
@@ -684,6 +712,7 @@ jerboa2.onclick = () => {
     loveExplosion();    // взрыв эмодзи
     spawnHeart();       // сердечки
     startInfiniteHearts();
+    nextJerboaPhrase();
 };
 
 /* открыть / закрыть панель */
