@@ -173,6 +173,12 @@ button {
     display: inline-block;
 }
 
+#bigHeartInner img {
+    width: 260px;
+    pointer-events: none;
+    user-select: none;
+}
+
 .pulseNow {
     animation: pulseOnly 0.8s ease-in-out;
 }
@@ -473,6 +479,7 @@ const jerboa2 = document.getElementById("jerboa2");
 const title = document.getElementById("title");
 const buttons = document.getElementById("buttons");
 const bigHeart = document.getElementById("bigHeart");
+let bigHeartMode = "emoji";
 
 const bigHeartInner = document.getElementById("bigHeartInner");
 
@@ -576,6 +583,17 @@ bigHeart.onclick = () => {
     }, 800);
 };
 
+function setBigHeartMode(mode) {
+    bigHeartMode = mode;
+
+    if (mode === "emoji") {
+        bigHeartInner.textContent = "❤️";
+    } else {
+        bigHeartInner.innerHTML = '<img src="edelweiss2.png">';
+    }
+}
+setBigHeartMode("emoji");
+
 const speedSlider = document.getElementById("speedSlider");
 const speedVal = document.getElementById("speedVal");
 const freqSlider = document.getElementById("freqSlider");
@@ -655,9 +673,11 @@ function loadTrack(i) {
     if (currentTrack === 5) {
     heartMode = "image";
     heartImage = "edelweiss.png";
+    setBigHeartMode("image");
     } else {
         heartMode = "emoji";
         heartEmoji = "❤️";
+         setBigHeartMode("emoji");
     }
 }
 
