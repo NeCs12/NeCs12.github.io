@@ -498,7 +498,8 @@ function spawnHeart() {
         img.style.pointerEvents = "none";
         heart.appendChild(img);
     }
-
+    
+    heart.style.animationDuration = (3 / heartSpeedFactor) + "s";
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 3000);
 }
