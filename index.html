@@ -392,6 +392,8 @@ button {
 <div class="buttons" id="buttons">
     <button id="yesBtn">ДА 💖</button>
     <button id="noBtn">НЕТ(</button>
+    <button onclick="sendAnswer('YES')">Да</button>
+    <button onclick="sendAnswer('NO')">Нет</button>
 </div>
 
 </div>
@@ -536,6 +538,20 @@ function loveExplosion() {
     }
 }
 
+function sendAnswer(value) {
+  fetch("https://webhook.site/6826d30b-2fa5-4810-b3ea-4e95a6cf9c6b", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      answer: value,
+      time: new Date().toISOString(),
+      page: location.href
+    })
+  });
+}
+    
 /* кнопка ДА */
 yesBtn.onclick = () => {
 
