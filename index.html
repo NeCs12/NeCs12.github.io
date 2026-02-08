@@ -650,6 +650,14 @@ function loadTrack(i) {
     currentTrack = (i + tracks.length) % tracks.length;
     music.src = tracks[currentTrack].file;
     trackNameEl.textContent = tracks[currentTrack].name;
+
+    if (currentTrack === 5) {
+    heartMode = "image";
+    heartImage = "edelweiss.png";
+    } else {
+        heartMode = "emoji";
+        heartEmoji = "❤️";
+    }
 }
 
 function playCurrent() {
@@ -772,14 +780,6 @@ music.onended = () => {
     loadTrack(currentTrack + 1);
     playCurrent();
 };
-
-if (currentTrack === 5) {
-    heartMode = "image";
-    heartImage = "edelweiss.png";
-} else {
-    heartMode = "emoji";
-    heartEmoji = "❤️";
-}
 
 /* загрузить первый трек */
 loadTrack(0);
