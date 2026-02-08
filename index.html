@@ -458,6 +458,10 @@ let noSize = 12;
 let clicks = 0;
 let heartInterval = null;
 
+let heartMode = "emoji";   // режим
+let heartEmoji = "❤️";
+let heartImage = "edelweiss.png";
+
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const message = document.getElementById("message");
@@ -482,12 +486,21 @@ let heartSpeedFactor = 1; // множитель скорости для новы
 function spawnHeart() {
     const heart = document.createElement("div");
     heart.className = "heart";
-    heart.innerHTML = "❤️";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (20 + Math.random()*30) + "px";
-    heart.style.animationDuration = (3 / heartSpeedFactor) + "s"; // скорость задаём здесь
+
+    if (heartMode === "emoji") {
+        heart.textContent = heartEmoji;
+        heart.style.fontSize = (20 + Math.random()*30) + "px";
+    } else {
+        const img = document.createElement("img");
+        img.src = heartImage;
+        img.style.width = (24 + Math.random()*26) + "px";
+        img.style.pointerEvents = "none";
+        heart.appendChild(img);
+    }
+
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 3000 / heartSpeedFactor);
+    setTimeout(() => heart.remove(), 3000);
 }
 
 function startInfiniteHearts() {
@@ -759,6 +772,14 @@ music.onended = () => {
     loadTrack(currentTrack + 1);
     playCurrent();
 };
+
+if (currentTrack === 5) {
+    heartMode = "image";
+    heartImage = "edelweiss.png";
+} else {
+    heartMode = "emoji";
+    heartEmoji = "❤️";
+}
 
 /* загрузить первый трек */
 loadTrack(0);
