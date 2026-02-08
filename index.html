@@ -367,7 +367,45 @@ button {
     accent-color: #ff4b6e;
     cursor: pointer;
 }
+.jerboaWrap {
+    display: inline-block;
+    position: relative;
+}
 
+/* блок эмоции */
+#jerboaMood {
+    position: absolute;
+    right: 100%;        /* ← слева от тушкана */
+    top: 40%;
+    margin-right: 15px;
+
+    background: rgba(255,255,255,0.9);
+    color: #b3002d;
+
+    padding: 8px 14px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-style: italic;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: 0.3s;
+
+    pointer-events: none;
+}
+
+/* хвостик облачка */
+#jerboaMood::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 8px solid transparent;
+    border-left-color: rgba(255,255,255,0.9);
+}
 
 </style>
 </head>
@@ -387,7 +425,10 @@ button {
 
 
 <img id="jerboa1" class="gif" src="jerboa-jerboanils.gif">
-<img id="jerboa2" class="gif" src="baby-jerboa-jerboa.gif" style="display:none;">
+<div class="jerboaWrap">
+    <div id="jerboaMood">*радуется*</div>
+    <img id="jerboa2" class="gif" src="baby-jerboa-jerboa.gif" style="display:none;">
+</div>
 
 <div class="buttons" id="buttons">
     <button id="yesBtn">ДА 💖</button>
@@ -551,6 +592,9 @@ yesBtn.onclick = () => {
 
     bigHeart.style.display = "block";
     message.style.display = "block";
+
+    document.getElementById("jerboaMood").style.opacity = "1";
+    document.getElementById("jerboaMood").style.transform = "translateY(0)";
 
     loveExplosion();
 };
