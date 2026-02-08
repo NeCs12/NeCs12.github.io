@@ -443,6 +443,42 @@ button {
     user-select: none;
 }
 
+#loveBarBox {
+    width: 100%;
+    height: 22px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+#loveBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff4b6e, #ff9bb0);
+    transition: width 0.35s ease;
+}
+
+#loveText {
+    margin-top: 6px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+#loveSecret {
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255,75,110,0.15);
+    display: none;
+    animation: fadeInLove 0.6s ease;
+}
+
+@keyframes fadeInLove {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 </style>
 </head>
 
@@ -538,13 +574,19 @@ button {
 <div id="leftPanelBtn">⭐</div>
 
 <!-- левая панель -->
-<div id="leftPanel">
-    <h2>Левая панель</h2>
-    <p>Тут можно разместить:</p>
-    <p>• секретные сообщения</p>
-    <p>• счетчик кликов</p>
-    <p>• мини-игры</p>
-    <p>• пасхалки 🐾</p>
+<div id="Игра">
+    <h3>Шкала любви ❤️</h3>
+
+    <div id="loveBarBox">
+        <div id="loveBar"></div>
+    </div>
+    
+    <div id="loveText">0 / 25</div>
+    
+    <div id="loveSecret">
+        💌 Еще один секрет разблокирован!  
+        Ты нажала сердце достаточно раз!
+    </div>
 </div>
     
 <script>
@@ -574,6 +616,13 @@ const bigHeartInner = document.getElementById("bigHeartInner");
 
 const leftPanel = document.getElementById("leftPanel");
 const leftPanelBtn = document.getElementById("leftPanelBtn");
+
+const loveNeed = 40; // сколько кликов нужно
+
+const loveBar = document.getElementById("loveBar");
+const loveText = document.getElementById("loveText");
+const loveSecret = document.getElementById("loveSecret");
+
 
 const jerboaPhrases = [
     "*радуется*",
@@ -643,6 +692,17 @@ function loveExplosion() {
         setTimeout(() => el.remove(), 1200);
     }
 }
+
+function updateLoveBar() {
+    const percent = Math.min(clicks / loveNeed, 1);
+    loveBar.style.width = (percent * 100) + "%";
+    loveText.textContent = clicks + " / " + loveNeed;
+
+    if (clicks >= loveNeed) {
+        loveSecret.style.display = "block";
+    }
+}
+
     
 /* кнопка ДА */
 yesBtn.onclick = () => {
@@ -677,6 +737,7 @@ noBtn.onclick = () => {
 
 bigHeart.onclick = () => {
     clicks++;
+    updateLoveBar();
     
     if(clicks === 7) {
         alert("Как ты это нашла?");
