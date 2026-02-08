@@ -407,6 +407,42 @@ button {
     border-left-color: rgba(255,255,255,0.9);
 }
 
+/* ===== ЛЕВАЯ ПАНЕЛЬ ===== */
+
+#leftPanel {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100%;
+    background: rgba(255,255,255,0.92);
+    color: #b3002d;
+    padding: 20px;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+    transition: left 0.4s ease;
+    overflow-y: auto;
+    z-index: 1200;
+}
+
+#leftPanel.open {
+    left: 0;
+}
+
+#leftPanelBtn {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background: #ff4b6e;
+    color: white;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    cursor: pointer;
+    z-index: 1300;
+    font-size: 20px;
+    user-select: none;
+}
+
 </style>
 </head>
 
@@ -498,6 +534,18 @@ button {
     </div>
     
 </div>
+
+<div id="leftPanelBtn">⭐</div>
+
+<!-- левая панель -->
+<div id="leftPanel">
+    <h2>Левая панель</h2>
+    <p>Тут можно разместить:</p>
+    <p>• секретные сообщения</p>
+    <p>• счетчик кликов</p>
+    <p>• мини-игры</p>
+    <p>• пасхалки 🐾</p>
+</div>
     
 <script>
 let yesSize = 20;
@@ -524,6 +572,9 @@ let bigHeartMode = "emoji";
 
 const bigHeartInner = document.getElementById("bigHeartInner");
 
+const leftPanel = document.getElementById("leftPanel");
+const leftPanelBtn = document.getElementById("leftPanelBtn");
+
 const jerboaPhrases = [
     "*радуется*",
     "*прыгает от счастья*",
@@ -540,6 +591,8 @@ const jerboaMood = document.getElementById("jerboaMood");
 
 sidePanel.style.display = "none";
 panelBtn.style.display = "none";
+leftPanelBtn.style.display = "none";
+leftPanel.style.display = "none";
 
 /* бесконечные сердца */
 let heartSpeedFactor = 1; // множитель скорости для новых сердец
@@ -629,6 +682,9 @@ bigHeart.onclick = () => {
         alert("Как ты это нашла?");
         panelBtn.style.display = "block";
         sidePanel.style.display = "block";
+
+        leftPanelBtn.style.display = "block";
+        leftPanel.style.display = "block";
     }
     
     loveExplosion();        // эмодзи взрыв
@@ -640,6 +696,10 @@ bigHeart.onclick = () => {
     setTimeout(() => {
         bigHeartInner.classList.remove("pulseNow");
     }, 800);
+};
+
+leftPanelBtn.onclick = () => {
+    leftPanel.classList.toggle("open");
 };
 
 function setBigHeartMode(mode) {
