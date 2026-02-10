@@ -509,6 +509,35 @@ button {
     cursor: pointer;
 }
 
+#reels {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.reel {
+    width: 70px;
+    height: 150px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    position: relative;
+    font-size: 40px;
+}
+
+.reelInner {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+.reelInner div {
+    height: 50px;
+    line-height: 50px;
+}
+
+
 
 </style>
 </head>
@@ -625,12 +654,12 @@ button {
     </div>
 
     <div id="slotBox">
-        <div class="slotTitle">🎰 Машина любви</div>
+        <div class="slotTitle">🎰 Слоты</div>
     
-        <div id="slots">
-            <span class="slot" id="slot1">❤️</span>
-            <span class="slot" id="slot2">❤️</span>
-            <span class="slot" id="slot3">❤️</span>
+        <div id="reels">
+            <div class="reel" id="reel1"></div>
+            <div class="reel" id="reel2"></div>
+            <div class="reel" id="reel3"></div>
         </div>
     
         <button id="spinBtn">Крутить</button>
@@ -1066,60 +1095,100 @@ music.onended = () => {
 loadTrack(0);
 stopBtn.textContent = "⏸";
 
-const slotEmojis = ["❤️","💖","💘","🌸","✨","🐹","💥"];
+const slotEmojis = ["❤️","💖","💘","🌸","✨","⭐"];
 
-const s1 = document.getElementById("slot1");
-const s2 = document.getElementById("slot2");
-const s3 = document.getElementById("slot3");
+const reels = [
+    document.getElementById("reel1"),
+    document.getElementById("reel2"),
+    document.getElementById("reel3")
+];
+
 const spinBtn = document.getElementById("spinBtn");
 const slotResult = document.getElementById("slotResult");
 
-function randEmoji() {
-    return slotEmojis[Math.floor(Math.random()*slotEmojis.length)];
+function buildReel(reel) {
+    reel.innerHTML = "";
+    const inner = document.createElement("div");
+    inner.className = "reelInner";
+
+    // длинная лента эмодзи для прокрутки
+    for (let i=0;i<25;i++) {
+        const d = document.createElement("div");
+        d.textContent = slotEmojis[Math.floor(Math.random()*slotEmojis.length)];
+        inner.appendChild(d);
+    }
+
+    reel.appendChild(inner);
+    return inner;
 }
 
-spinBtn.onclick = () => {
+function spinReel(inner, duration) {
+    return new Promise(resolve => {
+
+        const totalHeight = inner.offsetHeight - 150;
+        const target = Math.floor(Math.random()* (totalHeight/50)) * 50;
+
+        inner.style.transition = `transform ${duration}ms cubic-bezier(.2,.8,.2,1)`;
+        inner.style.transform = `translateY(-${target}px)`;
+
+        setTimeout(resolve, duration);
+    });
+}
+
+function getVisibleRow(reel) {
+    const inner = reel.firstChild;
+    const y = Math.abs(parseFloat(inner.style.transform.replace(/[^0-9.-]/g,'')) || 0);
+    const startIndex = Math.round(y / 50);
+
+    const rows = [];
+    for (let i=0;i<3;i++) {
+        rows.push(inner.children[startIndex + i].textContent);
+    }
+    return rows;
+}
+
+spinBtn.onclick = async () => {
 
     spinBtn.disabled = true;
     slotResult.textContent = "";
 
-    let ticks = 0;
+    const inners = reels.map(buildReel);
 
-    const spin = setInterval(() => {
-        s1.textContent = randEmoji();
-        s2.textContent = randEmoji();
-        s3.textContent = randEmoji();
+    await Promise.all([
+        spinReel(inners[0], 900),
+        spinReel(inners[1], 1200),
+        spinReel(inners[2], 1500)
+    ]);
 
-        ticks++;
-
-        if (ticks > 15) {
-            clearInterval(spin);
-            spinBtn.disabled = false;
-            checkWin();
-        }
-
-    }, 80);
+    checkRows();
+    spinBtn.disabled = false;
 };
 
-function checkWin() {
-    if (s1.textContent === s2.textContent &&
-        s2.textContent === s3.textContent) {
+function checkRows() {
+    const cols = reels.map(getVisibleRow);
 
-        slotResult.textContent = "ДЖЕКПОТ 💥";
+    // три горизонтальных ряда
+    let win = false;
 
-        // награда — буря эмодзи
-        for (let i=0;i<40;i++) spawnFloatingEmoji();
+    for (let r=0;r<3;r++) {
+        if (cols[0][r] === cols[1][r] &&
+            cols[1][r] === cols[2][r]) {
+            win = true;
+        }
+    }
 
-    } else if (s1.textContent === s2.textContent ||
-               s2.textContent === s3.textContent) {
+    if (win) {
+        slotResult.textContent = "ВЫИГРЫШ 💥";
 
-        slotResult.textContent = "Почти!";
-        explodeAt(bigHeart); // твой эффект взрыва
+        // награда — эффекты
+        for (let i=0;i<30;i++) spawnFloatingEmoji();
+        explodeAt(bigHeart);
 
     } else {
-        slotResult.textContent = "Мимо 🙂";
+        slotResult.textContent = "Почти 🙂";
     }
 }
+
 
 
 </script>
