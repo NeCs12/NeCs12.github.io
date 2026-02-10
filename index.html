@@ -693,7 +693,6 @@ function playSound() {
 
 /* телеграм-взрыв */
 function loveExplosion() {
-    playBoom();
     const effects = ["💖","💘","💞","✨","❤️‍🔥","💗","🌟","💓"];
     
     for (let i = 0; i < 22; i++) {
@@ -757,6 +756,7 @@ noBtn.onclick = () => {
 };
 
 bigHeart.onclick = () => {
+    playBoom();
     clicks++;
     updateLoveBar();
     
