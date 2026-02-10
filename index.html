@@ -627,9 +627,6 @@ const loveNeed = 100; // сколько кликов нужно
 const loveBar = document.getElementById("loveBar");
 const loveText = document.getElementById("loveText");
 const loveSecret = document.getElementById("loveSecret");
-    
-const boomSound = document.getElementById("boomSound");
-boomSound.volume = 0.35;
 
 const jerboaPhrases = [
     "*радуется*",
@@ -680,9 +677,15 @@ function startInfiniteHearts() {
     heartInterval = setInterval(spawnHeart, 40);
 }
 
+function playBoom() {
+    const s = boomSound.cloneNode();
+    s.volume = 0.35;
+    s.play().catch(()=>{});
+}
+
 /* телеграм-взрыв */
 function loveExplosion() {
-    boomSound.play().catch(()=>{});
+    playBoom();
     const effects = ["💖","💘","💞","✨","❤️‍🔥","💗","🌟","💓"];
     
     for (let i = 0; i < 22; i++) {
