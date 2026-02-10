@@ -479,53 +479,92 @@ button {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== СЛОТ МАШИНА ===== */
+
 #slotBox {
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 18px;
+
+    background: linear-gradient(
+        160deg,
+        rgba(255,255,255,0.35),
+        rgba(255,192,203,0.25)
+    );
+
+    backdrop-filter: blur(8px);
+    box-shadow:
+        inset 0 0 25px rgba(255,255,255,0.5),
+        0 0 25px rgba(255, 80, 120, 0.35);
 }
 
-.slotTitle {
-    font-size: 18px;
+.slotHeader {
+    font-size: 20px;
+    font-weight: bold;
     margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 0 0 8px rgba(255,80,120,0.6);
 }
 
-#slots {
-    font-size: 42px;
-    letter-spacing: 10px;
-    margin: 10px 0;
+/* рамка как у автомата */
+.slotFrame {
+    padding: 12px;
+    border-radius: 16px;
+
+    background:
+        linear-gradient(180deg,#ff9ab5,#ff4b6e);
+
+    box-shadow:
+        inset 0 0 18px rgba(0,0,0,0.25),
+        0 6px 18px rgba(0,0,0,0.3);
 }
 
-.slot {
-    display: inline-block;
-    width: 50px;
-}
-
-#spinBtn {
-    padding: 6px 14px;
-    border-radius: 10px;
-    border: none;
-    background: #ff4b6e;
-    color: white;
-    cursor: pointer;
-}
-
+/* барабаны */
 #reels {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin: 10px 0;
+    gap: 10px;
 }
 
 .reel {
-    width: 70px;
+    width: 72px;
     height: 150px;
     overflow: hidden;
-    background: rgba(255,255,255,0.15);
     border-radius: 12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #ffe6ec
+        );
+
+    box-shadow:
+        inset 0 0 10px rgba(0,0,0,0.25),
+        inset 0 0 25px rgba(255,120,150,0.25);
+
+    border: 2px solid rgba(255,255,255,0.7);
     position: relative;
     font-size: 40px;
 }
 
+/* блик стекла */
+.reel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            120deg,
+            transparent 30%,
+            rgba(255,255,255,0.5),
+            transparent 70%
+        );
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* внутренняя лента */
 .reelInner {
     position: absolute;
     width: 100%;
@@ -537,7 +576,46 @@ button {
     line-height: 50px;
 }
 
+/* кнопка как у автомата */
+#spinBtn {
+    margin-top: 12px;
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
 
+    background: linear-gradient(180deg,#ff6f91,#ff2f5a);
+    color: white;
+
+    border-radius: 14px;
+    padding: 12px;
+
+    box-shadow:
+        0 4px 0 #b31234,
+        0 0 16px rgba(255,60,100,0.6);
+
+    transition: 0.15s;
+}
+
+#spinBtn:hover {
+    transform: translateY(-2px);
+}
+
+#spinBtn:active {
+    transform: translateY(2px);
+    box-shadow:
+        0 2px 0 #b31234,
+        0 0 10px rgba(255,60,100,0.6);
+}
+
+/* результат */
+#slotResult {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    min-height: 24px;
+    text-shadow: 0 0 10px rgba(255,80,120,0.7);
+}
 
 </style>
 </head>
@@ -654,17 +732,22 @@ button {
     </div>
 
     <div id="slotBox">
-        <div class="slotTitle">🎰 Слоты</div>
+        <div class="slotHeader">
+            🎰 Слоты
+        </div>
     
-        <div id="reels">
-            <div class="reel" id="reel1"></div>
-            <div class="reel" id="reel2"></div>
-            <div class="reel" id="reel3"></div>
+        <div class="slotFrame">
+            <div id="reels">
+                <div class="reel" id="reel1"></div>
+                <div class="reel" id="reel2"></div>
+                <div class="reel" id="reel3"></div>
+            </div>
         </div>
     
         <button id="spinBtn">Крутить</button>
         <div id="slotResult"></div>
     </div>
+
 </div>
 
     
