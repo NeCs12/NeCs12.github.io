@@ -617,6 +617,30 @@ button {
     text-shadow: 0 0 10px rgba(255,80,120,0.7);
 }
 
+#slotLights {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+}
+
+.slotLight {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #555;
+    box-shadow: 0 0 4px #333;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.slotLight.active {
+    background: yellow;
+    box-shadow: 0 0 12px yellow;
+}
+
 </style>
 </head>
 
@@ -734,6 +758,14 @@ button {
     <div id="slotBox">
         <div class="slotHeader">
             🎰 Слоты
+        </div>
+
+        <div id="slotLights">
+            <div class="slotLight"></div>
+            <div class="slotLight"></div>
+            <div class="slotLight"></div>
+            <div class="slotLight"></div>
+            <div class="slotLight"></div>
         </div>
     
         <div class="slotFrame">
@@ -1247,6 +1279,20 @@ spinBtn.onclick = async () => {
     spinBtn.disabled = false;
 };
 
+const slotLights = document.querySelectorAll(".slotLight");
+
+function flashLights(times = 4, interval = 200) {
+    let count = 0;
+    const lightInterval = setInterval(() => {
+        slotLights.forEach(light => light.classList.toggle("active"));
+        count++;
+        if (count >= times*2) { // *2 потому что toggle дважды = один мигание
+            clearInterval(lightInterval);
+            slotLights.forEach(light => light.classList.remove("active")); // сброс
+        }
+    }, interval);
+}
+
 function checkRows() {
     const cols = reels.map(getVisibleRow);
 
@@ -1261,12 +1307,15 @@ function checkRows() {
     }
 
     if (win) {
-        slotResult.textContent = "ВЫИГРЫШ 💥";
+        slotResult.textContent = "Jackpot!!!";
 
-        // награда — эффекты
+        flashLights();
+        for (let i=0;i<10;i++) {
+            loveExplosion();
+        }
         loveExplosion();
     } else {
-        slotResult.textContent = "Почти 🙂";
+        slotResult.textContent = "Почти-почти...";
     }
 }
 
