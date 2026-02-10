@@ -519,6 +519,7 @@ button {
 </div>
 
 <audio id="music"></audio>
+<audio id="boomSound" src="pop.mp3" preload="auto"></audio>
 
 <!-- кнопка панели -->
 <div id="panelBtn">ℹ️</div>
@@ -626,7 +627,9 @@ const loveNeed = 100; // сколько кликов нужно
 const loveBar = document.getElementById("loveBar");
 const loveText = document.getElementById("loveText");
 const loveSecret = document.getElementById("loveSecret");
-
+    
+const boomSound = document.getElementById("boomSound");
+boomSound.volume = 0.35;
 
 const jerboaPhrases = [
     "*радуется*",
@@ -679,8 +682,9 @@ function startInfiniteHearts() {
 
 /* телеграм-взрыв */
 function loveExplosion() {
+    boomSound.play().catch(()=>{});
     const effects = ["💖","💘","💞","✨","❤️‍🔥","💗","🌟","💓"];
-
+    
     for (let i = 0; i < 22; i++) {
         const el = document.createElement("div");
         el.className = "burst";
