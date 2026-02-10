@@ -520,6 +520,7 @@ button {
 
 <audio id="music"></audio>
 <audio id="boomSound" src="pop.mp3" preload="auto"></audio>
+<audio id="Tshk" src="sound.mp3" preload="auto"></audio>
 
 <!-- кнопка панели -->
 <div id="panelBtn">ℹ️</div>
@@ -683,6 +684,13 @@ function playBoom() {
     s.play().catch(()=>{});
 }
 
+function playSound() {
+    const s = Tshk.cloneNode();
+    s.volume = 0.35;
+    s.play().catch(()=>{});
+}
+
+
 /* телеграм-взрыв */
 function loveExplosion() {
     playBoom();
@@ -842,6 +850,7 @@ function spawnJerboa() {
 }
 
 jerboa2.onclick = () => {
+    playSound();
     spawnJerboa();      // размножение тушканов
     loveExplosion();    // взрыв эмодзи
     spawnHeart();       // сердечки
