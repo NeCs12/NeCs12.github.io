@@ -479,6 +479,37 @@ button {
     to { opacity: 1; transform: translateY(0); }
 }
 
+#slotBox {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.slotTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#slots {
+    font-size: 42px;
+    letter-spacing: 10px;
+    margin: 10px 0;
+}
+
+.slot {
+    display: inline-block;
+    width: 50px;
+}
+
+#spinBtn {
+    padding: 6px 14px;
+    border-radius: 10px;
+    border: none;
+    background: #ff4b6e;
+    color: white;
+    cursor: pointer;
+}
+
+
 </style>
 </head>
 
@@ -591,6 +622,19 @@ button {
 
         <p>Я не только очень благодарен тебе за все что было. Мы действительно прошли вместе через многое. Я каждый день ты была на связи со мной, это меня спасало моментами, когда мне казалось что проще исчезнуть из жизни всех и остаться совсем одному, ты давала мне понять что я нужен тебе.
         Это очень очень круто и это то, что и значит любовь. Именно за то, что ты это ты я и люблю тебя.</p>
+    </div>
+
+    <div id="slotBox">
+        <div class="slotTitle">🎰 Машина любви</div>
+    
+        <div id="slots">
+            <span class="slot" id="slot1">❤️</span>
+            <span class="slot" id="slot2">❤️</span>
+            <span class="slot" id="slot3">❤️</span>
+        </div>
+    
+        <button id="spinBtn">Крутить</button>
+        <div id="slotResult"></div>
     </div>
 </div>
 
@@ -1021,6 +1065,62 @@ music.onended = () => {
 /* загрузить первый трек */
 loadTrack(0);
 stopBtn.textContent = "⏸";
+
+const slotEmojis = ["❤️","💖","💘","🌸","✨","🐹","💥"];
+
+const s1 = document.getElementById("slot1");
+const s2 = document.getElementById("slot2");
+const s3 = document.getElementById("slot3");
+const spinBtn = document.getElementById("spinBtn");
+const slotResult = document.getElementById("slotResult");
+
+function randEmoji() {
+    return slotEmojis[Math.floor(Math.random()*slotEmojis.length)];
+}
+
+spinBtn.onclick = () => {
+
+    spinBtn.disabled = true;
+    slotResult.textContent = "";
+
+    let ticks = 0;
+
+    const spin = setInterval(() => {
+        s1.textContent = randEmoji();
+        s2.textContent = randEmoji();
+        s3.textContent = randEmoji();
+
+        ticks++;
+
+        if (ticks > 15) {
+            clearInterval(spin);
+            spinBtn.disabled = false;
+            checkWin();
+        }
+
+    }, 80);
+};
+
+function checkWin() {
+    if (s1.textContent === s2.textContent &&
+        s2.textContent === s3.textContent) {
+
+        slotResult.textContent = "ДЖЕКПОТ 💥";
+
+        // награда — буря эмодзи
+        for (let i=0;i<40;i++) spawnFloatingEmoji();
+
+    } else if (s1.textContent === s2.textContent ||
+               s2.textContent === s3.textContent) {
+
+        slotResult.textContent = "Почти!";
+        explodeAt(bigHeart); // твой эффект взрыва
+
+    } else {
+        slotResult.textContent = "Мимо 🙂";
+    }
+}
+
 
 </script>
 
