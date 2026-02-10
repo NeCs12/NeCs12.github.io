@@ -1178,101 +1178,80 @@ music.onended = () => {
 loadTrack(0);
 stopBtn.textContent = "⏸";
 
-const slotEmojis = ["❤️","💖","💘","🌸","✨","⭐"];
-
+const spinBtn = document.getElementById("spinBtn");
 const reels = [
     document.getElementById("reel1"),
     document.getElementById("reel2"),
     document.getElementById("reel3")
 ];
-
-const spinBtn = document.getElementById("spinBtn");
 const slotResult = document.getElementById("slotResult");
 
-function buildReel(reel) {
-    reel.innerHTML = "";
-    const inner = document.createElement("div");
-    inner.className = "reelInner";
+const emojis = ["❤️","💖","💘","🌟","❣️","💗","💞"];
+let spinning = false;
 
-    // длинная лента эмодзи для прокрутки
-    for (let i=0;i<25;i++) {
-        const d = document.createElement("div");
-        d.textContent = slotEmojis[Math.floor(Math.random()*slotEmojis.length)];
-        inner.appendChild(d);
-    }
-
-    reel.appendChild(inner);
-    return inner;
-}
-
-function spinReel(inner, duration) {
-    return new Promise(resolve => {
-
-        const totalHeight = inner.offsetHeight - 150;
-        const target = Math.floor(Math.random()* (totalHeight/50)) * 50;
-
-        inner.style.transition = `transform ${duration}ms cubic-bezier(.2,.8,.2,1)`;
-        inner.style.transform = `translateY(-${target}px)`;
-
-        setTimeout(resolve, duration);
-    });
-}
-
-function getVisibleRow(reel) {
-    const inner = reel.firstChild;
-    const y = Math.abs(parseFloat(inner.style.transform.replace(/[^0-9.-]/g,'')) || 0);
-    const startIndex = Math.round(y / 50);
-
-    const rows = [];
-    for (let i=0;i<3;i++) {
-        rows.push(inner.children[startIndex + i].textContent);
-    }
-    return rows;
-}
-
-spinBtn.onclick = async () => {
-
+function spinReels() {
+    if (spinning) return;
+    spinning = true;
     spinBtn.disabled = true;
     slotResult.textContent = "";
 
-    const inners = reels.map(buildReel);
+    // Создаем случайные результаты для каждого ряда
+    const results = [];
+    reels.forEach((reel, i) => {
+        reel.innerHTML = ""; // очистка
+        const reelInner = document.createElement("div");
+        reelInner.className = "reelInner";
 
-    await Promise.all([
-        spinReel(inners[0], 900),
-        spinReel(inners[1], 1200),
-        spinReel(inners[2], 1500)
-    ]);
-
-    checkRows();
-    spinBtn.disabled = false;
-};
-
-function checkRows() {
-    const cols = reels.map(getVisibleRow);
-
-    // три горизонтальных ряда
-    let win = false;
-
-    for (let r=0;r<3;r++) {
-        if (cols[0][r] === cols[1][r] &&
-            cols[1][r] === cols[2][r]) {
-            win = true;
+        for (let j = 0; j < 10; j++) {
+            const symbol = emojis[Math.floor(Math.random() * emojis.length)];
+            const div = document.createElement("div");
+            div.textContent = symbol;
+            reelInner.appendChild(div);
         }
-    }
+        reel.appendChild(reelInner);
 
-    if (win) {
-        slotResult.textContent = "ВЫИГРЫШ 💥";
+        // последний символ — результат
+        const resultEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        results.push(resultEmoji);
 
-        // награда — эффекты
-        for (let i=0;i<30;i++) spawnFloatingEmoji();
-        explodeAt(bigHeart);
+        // ставим его в центр после анимации
+        reelInner.style.transition = "transform 1s ease-out";
+        reelInner.style.transform = `translateY(-${(9)*50}px)`; // символы по 50px
+        setTimeout(() => {
+            reelInner.innerHTML = `<div style="height:50px;line-height:50px">${resultEmoji}</div>`;
+        }, 1000);
+    });
 
-    } else {
-        slotResult.textContent = "Почти 🙂";
-    }
+    // проверка выигрыша
+    setTimeout(() => {
+        const win = results.some(r => results.filter(x => x === r).length >= 1);
+        if (win) {
+            slotResult.textContent = "🎉 Победа! 🎉";
+            triggerWinEffect(); // визуальный эффект
+        } else {
+            slotResult.textContent = "Попробуй снова!";
+        }
+        spinning = false;
+        spinBtn.disabled = false;
+    }, 1200);
 }
 
+spinBtn.onclick = spinReels;
 
+// Функция визуального эффекта при выигрыше
+function triggerWinEffect() {
+    for (let i = 0; i < 15; i++) {
+        const el = document.createElement("div");
+        el.className = "burst";
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 100 + Math.random() * 150;
+        el.style.setProperty("--dx", Math.cos(angle)*dist + "px");
+        el.style.setProperty("--dy", Math.sin(angle)*dist + "px");
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1200);
+    }
+}
 
 </script>
 
